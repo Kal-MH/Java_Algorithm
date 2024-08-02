@@ -4,53 +4,42 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.StringTokenizer;
 
-
 public class Main {
+	static FastReader scan = new FastReader();
 	static StringBuilder sb = new StringBuilder();
 	
-	static int N;
-	static String[] a;
-	
-	public static void input() {
-		FastReader scan = new FastReader();
-		
+	static int N, S, ans;
+	static int[] A;
+
+	static void input() {
 		N = scan.nextInt();
+		S = scan.nextInt();
 		
-		a = new String[N + 1];
-		for(int i = 1; i <= N; i++) a[i] = scan.nextLine().split("\\.")[1];
+		A = new int[N + 1];
+		for(int i = 1; i <= N; i++) A[i] = scan.nextInt();
 	}
 	
-	
-	public static void pro() {
-		Arrays.sort(a, 1, N + 1);
-		
-		for(int i = 1; i <= N;) {
-			int cnt = 1, j = i + 1;
-			
-			for(;j <= N; j++) {
-				if (a[i].compareTo(a[j]) == 0) cnt++;
-				else break;
-			}
-			
-			sb.append(a[i]).append(' ').append(cnt).append('\n');
-			i = j;
+	static void rec_func(int k, int value) {
+		if (k == N + 1) {
+			if (value == S) ans++;
+		} else {
+			rec_func(k + 1, value + A[k]);
+			rec_func(k + 1, value);
 		}
-		
-		System.out.println(sb.toString());
 	}
 	
-	
-	public static void main(String args[]) {
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
 		input();
-		pro();
+
+		rec_func(1, 0);
+		
+		if (S == 0) ans--;
+		System.out.println(ans);
 	}
-	
 	public static class FastReader {
 		BufferedReader br;
 		StringTokenizer st;
@@ -75,18 +64,6 @@ public class Main {
 			return st.nextToken();
 		}
 		
-		int nextInt() {
-			return Integer.parseInt(next());
-		}
-		
-		double nextDouble() {
-			return Double.parseDouble(next());
-		}
-		
-		Long nextLong() {
-			return Long.parseLong(next());
-		}
-		
 		String nextLine() {
 			String str = "";
 			
@@ -95,8 +72,20 @@ public class Main {
 			} catch(IOException e) {
 				e.printStackTrace();
 			}
-			
 			return str;
 		}
+		
+		int nextInt() {
+			return Integer.parseInt(next());
+		}
+		
+		long nextLong() {
+			return Long.parseLong(next());
+		}
+		
+		double nextDouble() {
+			return Double.parseDouble(next());
+		}
 	}
+
 }
